@@ -15,8 +15,8 @@ class UserService(BaseService):
     Runs as a separate process
     """
     
-    def __init__(self, request_queue, response_queue, shared_stats):
-        super().__init__('UserService', request_queue, response_queue, shared_stats)
+    def __init__(self, request_queue, response_queue, shared_stats, shared_lock=None):
+        super().__init__('UserService', request_queue, response_queue, shared_stats, shared_lock)
         self.users = {}  # In-memory user storage
         self.user_counter = 1
     

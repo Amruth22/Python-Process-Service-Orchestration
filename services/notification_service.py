@@ -15,8 +15,8 @@ class NotificationService(BaseService):
     Demonstrates asynchronous processing
     """
     
-    def __init__(self, request_queue, response_queue, shared_stats):
-        super().__init__('NotificationService', request_queue, response_queue, shared_stats)
+    def __init__(self, request_queue, response_queue, shared_stats, shared_lock=None):
+        super().__init__('NotificationService', request_queue, response_queue, shared_stats, shared_lock)
         self.notifications_sent = 0
     
     def handle_request(self, request):

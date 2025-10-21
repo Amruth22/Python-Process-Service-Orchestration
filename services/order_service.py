@@ -16,8 +16,8 @@ class OrderService(BaseService):
     Demonstrates inter-service communication
     """
     
-    def __init__(self, request_queue, response_queue, shared_stats, user_service_queue):
-        super().__init__('OrderService', request_queue, response_queue, shared_stats)
+    def __init__(self, request_queue, response_queue, shared_stats, user_service_queue, shared_lock=None):
+        super().__init__('OrderService', request_queue, response_queue, shared_stats, shared_lock)
         self.orders = {}  # In-memory order storage
         self.order_counter = 1
         self.user_service_queue = user_service_queue

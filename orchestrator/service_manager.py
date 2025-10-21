@@ -20,15 +20,16 @@ class ServiceManager:
     Service Manager
     Orchestrates all services
     """
-    
+
     def __init__(self):
         """Initialize service manager"""
         self.registry = ServiceRegistry()
         self.services = {}
-        
-        # Create shared memory for statistics
+
+        # Create shared memory for statistics with manager's Lock
         manager = Manager()
         self.shared_stats = manager.dict()
+        self.shared_lock = manager.Lock()  # Use manager's Lock for inter-process safety
         
         # Create queues for communication
         self.user_request_queue = Queue()
@@ -79,20 +80,23 @@ class ServiceManager:
                 service = UserService(
                     self.user_request_queue,
                     self.user_response_queue,
-                    self.shared_stats
+                    self.shared_stats,
+                    self.shared_lock
                 )
             elif service_name == 'OrderService':
                 service = OrderService(
                     self.order_request_queue,
                     self.order_response_queue,
                     self.shared_stats,
-                    self.user_request_queue  # OrderService needs to call UserService
+                    self.user_request_queue,  # OrderService needs to call UserService
+                    self.shared_lock
                 )
             elif service_name == 'NotificationService':
                 service = NotificationService(
                     self.notification_request_queue,
                     self.notification_response_queue,
-                    self.shared_stats
+                    self.shared_stats,
+                    self.shared_lock
                 )
             else:
                 logger.error(f"Unknown service: {service_name}")
