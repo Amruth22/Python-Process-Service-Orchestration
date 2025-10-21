@@ -1,6 +1,7 @@
 """
 Base Service Class
 Provides common functionality for all services
+Cross-platform compatible for Windows and Linux
 """
 
 import time
@@ -16,6 +17,7 @@ class BaseService:
     """
     Base class for all services
     Each service runs in its own process
+    Cross-platform implementation for multiprocessing
     """
 
     def __init__(self, name, request_queue, response_queue, shared_stats, shared_lock=None):
